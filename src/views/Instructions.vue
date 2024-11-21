@@ -1,3 +1,25 @@
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
+import { audioService } from '../services/audioService';
+import Button from '../components/Button.vue';
+
+export default defineComponent({
+    name: 'Instructions',
+    components: { Button },
+    setup() {
+        const router = useRouter();
+
+        const goBack = () => {
+            audioService.playSound('click');
+            router.push('/');
+        };
+
+        return { goBack };
+    },
+});
+</script>
+
 <template>
     <div class="instructions">
         <section>
@@ -44,28 +66,6 @@
         <Button @click="goBack" type="primary" size="medium">Back to Menu</Button>
     </div>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
-import { audioService } from '../services/audioService';
-import Button from '../components/Button.vue';
-
-export default defineComponent({
-    name: 'Instructions',
-    components: { Button },
-    setup() {
-        const router = useRouter();
-
-        const goBack = () => {
-            audioService.playSound('click');
-            router.push('/');
-        };
-
-        return { goBack };
-    },
-});
-</script>
 
 <style scoped lang="scss">
 .instructions {

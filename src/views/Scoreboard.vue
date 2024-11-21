@@ -1,3 +1,27 @@
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { audioService } from '../services/audioService';
+
+export default defineComponent({
+  name: 'Scoreboard',
+  setup() {
+    console.log('sss', localStorage.getItem('scoreboard'));
+    const scores = ref(
+      JSON.parse(localStorage.getItem('scoreboard') || '[]')
+    );
+    const router = useRouter();
+
+    const goBack = () => {
+      audioService.playSound('click');
+      router.push('/');
+    };
+
+    return { scores, goBack };
+  },
+});
+</script>
+
 <template>
   <div class="scoreboard">
     <h1>Top Scores</h1>
@@ -23,30 +47,6 @@
     <button @click="goBack">Back to Menu</button>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { audioService } from '../services/audioService';
-
-export default defineComponent({
-  name: 'Scoreboard',
-  setup() {
-    console.log('sss', localStorage.getItem('scoreboard'));
-    const scores = ref(
-      JSON.parse(localStorage.getItem('scoreboard') || '[]')
-    );
-    const router = useRouter();
-
-    const goBack = () => {
-      audioService.playSound('click');
-      router.push('/');
-    };
-
-    return { scores, goBack };
-  },
-});
-</script>
 
 <style scoped lang="scss">
 .scoreboard {

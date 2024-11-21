@@ -1,9 +1,3 @@
-<template>
-  <div class="timer">
-    Time: {{ time }} seconds
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent, ref, onMounted, onBeforeUnmount } from 'vue';
 
@@ -46,6 +40,12 @@ export default defineComponent({
   }
 });
 </script>
+
+<template>
+  <div class="timer">
+    Time: {{ time }} seconds
+  </div>
+</template>
 
 <style scoped>
 .timer {

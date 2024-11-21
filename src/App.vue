@@ -1,11 +1,3 @@
-<template>
-  <div id="app">
-    <LayoutWrapper>
-      <router-view />
-    </LayoutWrapper>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 import LayoutWrapper from './layouts/LayoutWrapper.vue';
@@ -28,3 +20,11 @@ export default defineComponent({
   }
 });
 </script>
+
+<template>
+  <div id="app">
+    <LayoutWrapper>
+      <router-view />
+    </LayoutWrapper>
+  </div>
+</template>

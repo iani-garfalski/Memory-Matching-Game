@@ -1,10 +1,3 @@
-<template>
-  <div class="grid">
-    <MemoryCard v-for="(card, index) in cards" :key="card.id" :image="card.image" :alt="card.alt"
-      :flipped="card.flipped" :matched="card.matched" :loaded="loadedCards.includes(index)" @flip="onFlipCard(card)" />
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import MemoryCard from './MemoryCard.vue';
@@ -36,6 +29,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div class="grid">
+    <MemoryCard v-for="(card, index) in cards" :key="card.id" :image="card.image" :alt="card.alt"
+      :flipped="card.flipped" :matched="card.matched" :loaded="loadedCards.includes(index)" @flip="onFlipCard(card)" />
+  </div>
+</template>
 
 
 <style scoped lang="scss">

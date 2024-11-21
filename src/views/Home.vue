@@ -1,19 +1,3 @@
-<template>
-  <div class="home">
-    <h1>Memory Card Game</h1>
-    <form @submit.prevent="startGame">
-      <SelectInput v-model="category" label="Select Category" id="category" :options="categoryOptions" required />
-      <SelectInput v-model="gameSize" label="Select Grid Size" id="gameSize" :options="gridSizeOptions" required />
-
-      <Button type="primary" size="medium">Start Game</Button>
-    </form>
-    <div class="button-container">
-      <Button @click="goToScoreboard" type="primary" size="medium">View Scoreboard</Button>
-      <Button @click="goToInstructions" type="primary" size="medium">View Instructions</Button>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -65,6 +49,22 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div class="home">
+    <h1>Memory Card Game</h1>
+    <form @submit.prevent="startGame">
+      <SelectInput v-model="category" label="Select Category" id="category" :options="categoryOptions" required />
+      <SelectInput v-model="gameSize" label="Select Grid Size" id="gameSize" :options="gridSizeOptions" required />
+
+      <Button type="primary" size="medium">Start Game</Button>
+    </form>
+    <div class="button-container">
+      <Button @click="goToScoreboard" type="primary" size="medium">View Scoreboard</Button>
+      <Button @click="goToInstructions" type="primary" size="medium">View Instructions</Button>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .home {

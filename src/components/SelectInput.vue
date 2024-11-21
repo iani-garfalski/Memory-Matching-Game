@@ -1,12 +1,3 @@
-<template>
-  <div class="form-group">
-    <label :for="id">{{ label }}</label>
-    <select :id="id" v-model="selectedValue" @change="emitChange" :required="required">
-      <option v-for="option in options" :key="option.value" :value="option.value">{{ option.label }}</option>
-    </select>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
 
@@ -56,6 +47,15 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div class="form-group">
+    <label :for="id">{{ label }}</label>
+    <select :id="id" v-model="selectedValue" @change="emitChange" :required="required">
+      <option v-for="option in options" :key="option.value" :value="option.value">{{ option.label }}</option>
+    </select>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .form-group {

@@ -1,23 +1,3 @@
-<template>
-  <div class="game">
-    <h1>Memory Card Game</h1>
-    <CardGrid :cards="cards" :loadedCards="loadedCards" :onFlipCard="handleCardFlip" />
-    <p>Attempts: {{ attempts }}</p>
-    <p>Time: {{ formattedTime }}</p>
-    <div class="button-container">
-      <Button @click="resetGame" type="primary" size="medium">Reset Game</Button>
-      <Button @click="goBack" type="primary" size="medium">Back to Menu</Button>
-    </div>
-  </div>
-  <!-- Reusable Modal -->
-  <Modal v-if="showSuccessModal" :isVisible="showSuccessModal" title="Congratulations!"
-    :message="'You completed the game in ' + formattedTime + ' with ' + attempts + ' attempts.'" :buttons="[
-      { label: 'Close', action: closeModal },
-      { label: 'Restart', action: resetGame }
-    ]" :onClose="closeModal" />
-</template>
-
-
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from 'vue';
 import CardGrid from '../components/CardGrid.vue';
@@ -67,7 +47,9 @@ export default defineComponent({
           { id: index * 2 + 1, image: image.url, alt: image.alt, flipped: false, matched: false },
         ]);
 
-        cards.value = duplicatedCards.sort(() => Math.random() - 0.5); // Shuffle
+        // Assign the shuffled cards to cards.value
+        cards.value = shuffleArray(duplicatedCards);
+
         attempts.value = 0;
         reset(); // Reset the timer
         showSuccessModal.value = false;
@@ -76,6 +58,15 @@ export default defineComponent({
         console.error('Error initializing game:', error);
         alert('Failed to load images. Please try again later.');
       }
+    };
+
+    // Arrow function for Fisher-Yates shuffle
+    const shuffleArray = (duplicatedCards: Card[]): Card[] => {
+      for (let i = duplicatedCards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [duplicatedCards[i], duplicatedCards[j]] = [duplicatedCards[j], duplicatedCards[i]]; // Swap
+      }
+      return duplicatedCards; // Return the shuffled array
     };
 
     // Handle card flip logic
@@ -161,6 +152,25 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div class="game">
+    <h1>Memory Card Game</h1>
+    <CardGrid :cards="cards" :loadedCards="loadedCards" :onFlipCard="handleCardFlip" />
+    <p>Attempts: {{ attempts }}</p>
+    <p>Time: {{ formattedTime }}</p>
+    <div class="button-container">
+      <Button @click="resetGame" type="primary" size="medium">Reset Game</Button>
+      <Button @click="goBack" type="primary" size="medium">Back to Menu</Button>
+    </div>
+  </div>
+  <!-- Reusable Modal -->
+  <Modal v-if="showSuccessModal" :isVisible="showSuccessModal" title="Congratulations!"
+    :message="'You completed the game in ' + formattedTime + ' with ' + attempts + ' attempts.'" :buttons="[
+      { label: 'Close', action: closeModal },
+      { label: 'Restart', action: resetGame }
+    ]" :onClose="closeModal" />
+</template>
 
 <style scoped lang="scss">
 .game {

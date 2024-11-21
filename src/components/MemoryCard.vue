@@ -1,11 +1,3 @@
-<template>
-  <div class="card" @click="emitFlip" @keydown.space.prevent="emitFlip" tabindex="0"
-    :class="{ matched, flipped, loaded }">
-    <img v-if="flipped || matched" :src="image" :alt="alt" title="" />
-    <span class="sr-only">{{ alt }}</span>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue';
 
@@ -28,6 +20,14 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div class="card" @click="emitFlip" @keydown.space.prevent="emitFlip" tabindex="0"
+    :class="{ matched, flipped, loaded }">
+    <img v-if="flipped || matched" :src="image" :alt="alt" title="" />
+    <span class="sr-only">{{ alt }}</span>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .card {

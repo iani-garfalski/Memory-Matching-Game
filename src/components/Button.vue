@@ -1,10 +1,3 @@
-<template>
-  <button class="btn" :class="['btn', type, size, { 'btn--disabled': disabled }]" @click="handleClick"
-    :disabled="disabled">
-    <slot></slot>
-  </button>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue';
 
@@ -27,15 +20,27 @@ export default defineComponent({
       default: false, // Button is not disabled by default
     },
   },
-  methods: {
-    handleClick() {
-      if (!this.disabled) {
-        this.$emit('click');
+  setup(props, { emit }) {
+    const handleClick = () => {
+      if (!props.disabled) {
+        emit('click');
       }
-    },
+    };
+
+    return {
+      handleClick,
+      ...props,
+    };
   },
 });
 </script>
+
+<template>
+  <button class="btn" :class="['btn', type, size, { 'btn--disabled': disabled }]" @click="handleClick"
+    :disabled="disabled">
+    <slot></slot>
+  </button>
+</template>
 
 <style scoped>
 /* Base button styles */

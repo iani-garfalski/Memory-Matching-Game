@@ -1,17 +1,5 @@
-<template>
-  <div v-if="isVisible" class="modal-overlay" @click.self="closeModal">
-    <div class="modal-content">
-      <h2>{{ title }}</h2>
-      <p>{{ message }}</p>
-      <button v-for="(button, index) in buttons" :key="index" @click="handleButtonClick(button.action)">
-        {{ button.label }}
-      </button>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, defineEmits } from 'vue';
 
 export default defineComponent({
   name: 'Modal',
@@ -28,17 +16,48 @@ export default defineComponent({
       default: () => { },
     },
   },
-  methods: {
-    closeModal() {
-      this.onClose();
-    },
-    handleButtonClick(action?: () => void) {
+  setup(props) {
+    // Emit to close modal
+    const emitClose = defineEmits<{
+      (e: 'close'): void;
+    }>();
+
+    const closeModal = () => {
+      emitClose('close'); // Emit close event when modal closes
+      if (props.onClose) {
+        props.onClose(); // Call the onClose function if provided
+      }
+    };
+
+    const handleButtonClick = (action?: () => void) => {
       if (action) action();
-      this.closeModal();
-    },
+      closeModal();
+    };
+
+    return {
+      closeModal,
+      handleButtonClick,
+      ...props, // Expose the props to the template
+    };
   },
 });
 </script>
+
+<template>
+  <div v-if="isVisible" class="modal-overlay" @click.self="closeModal">
+    <div class="modal-content">
+      <h2>{{ title }}</h2>
+      <p>{{ message }}</p>
+      <button
+        v-for="(button) in buttons"
+        :key="button.label"
+        @click="handleButtonClick(button.action)"
+      >
+        {{ button.label }}
+      </button>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="scss">
 .modal-overlay {
