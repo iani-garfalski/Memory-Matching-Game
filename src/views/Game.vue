@@ -23,7 +23,6 @@ export default defineComponent({
     const attempts = ref(0);
     const selectedCards = ref<Card[]>([]);
     const showSuccessModal = ref(false);
-    const backgroundImage = ref('');
     const loadedCards = ref<number[]>([]); // Track which cards are loaded
     const { changeBackground } = useBackground();
 
@@ -32,12 +31,6 @@ export default defineComponent({
 
     const initializeGame = async () => {
       try {
-        loadedCards.value = [];
-        for (let i = 0; i < cards.value.length; i++) {
-          setTimeout(() => {
-            loadedCards.value.push(i); // Mark each card as loaded with a delay
-          }, i * 100); // Stagger animation
-        }
         // Ensure enough images are in localStorage
         const images = await ensureImagesInStorage(props.category, props.gameSize / 2);
 
@@ -49,6 +42,12 @@ export default defineComponent({
 
         // Assign the shuffled cards to cards.value
         cards.value = shuffleArray(duplicatedCards);
+        loadedCards.value = [];
+
+        // Clear loaded state after all cards are loaded
+        setTimeout(() => {
+          loadedCards.value = []; // Remove loaded state to allow flip animations
+        }, cards.value.length * 100 + 100); // Add a slight buffer to ensure all animations are done
 
         attempts.value = 0;
         reset(); // Reset the timer
@@ -111,6 +110,12 @@ export default defineComponent({
     const resetGame = async () => {
       stop(); // Stop the timer before resetting
       audioService.playSound('shuffle');
+      loadedCards.value = [];
+      for (let i = 0; i < cards.value.length; i++) {
+        setTimeout(() => {
+          loadedCards.value.push(i); // Mark each card as loaded with a delay
+        }, i * 100); // Stagger animation
+      }
       await initializeGame();
     };
 
@@ -146,7 +151,6 @@ export default defineComponent({
       resetGame,
       closeModal,
       goBack,
-      backgroundImage,
       loadedCards,
     };
   },

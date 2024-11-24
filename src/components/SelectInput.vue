@@ -38,12 +38,7 @@ export default defineComponent({
       emit('update:modelValue', newValue);
     });
 
-    // Emit change when the value changes
-    const emitChange = () => {
-      emit('update:modelValue', selectedValue.value);
-    };
-
-    return { selectedValue, emitChange };
+    return { selectedValue };
   },
 });
 </script>
@@ -51,7 +46,7 @@ export default defineComponent({
 <template>
   <div class="form-group">
     <label :for="id">{{ label }}</label>
-    <select :id="id" v-model="selectedValue" @change="emitChange" :required="required">
+    <select :id="id" v-model="selectedValue" :required="required">
       <option v-for="option in options" :key="option.value" :value="option.value">{{ option.label }}</option>
     </select>
   </div>
